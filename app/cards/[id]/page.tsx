@@ -43,6 +43,7 @@ const Page: NextPage = () => {
 
   const [curIndex, setCurIndex] = useState(words.length - 1);
   const [swipeSide, setSwipeSide] = useState<'R' | 'L'>('R');
+
   const transform =
     swipeSide === 'R'
       ? 'translate-x-96 rotate-12'
@@ -53,20 +54,20 @@ const Page: NextPage = () => {
     setCurIndex((c) => c - 1);
   };
 
+  const reset = () => {
+    setSwipeSide('R');
+    setCurIndex(words.length - 1);
+  };
+
   return (
     <>
       <div className="flex w-screen justify-center">
         <div className="relative w-96">
-          <div className="absolute">
-            <Card
-              id="0000"
-              word="All done!"
-              definition=""
-              onSwipe={() => setCurIndex(words.length - 1)}
-            />
+          <div className="absolute w-full">
+            <Card id="" word="All done!" definition="" onSwipe={reset} />
           </div>
           {words.map((word, index) => (
-            <div key={word.id} className="absolute">
+            <div key={word.id} className="absolute w-full">
               <Transition
                 show={index <= curIndex}
                 enter="transition ease-out duration-500"
@@ -76,16 +77,7 @@ const Page: NextPage = () => {
                 leaveFrom="transform translate-x-0"
                 leaveTo={`transform ${transform}`}
               >
-                {!!word ? (
-                  <Card {...word} onSwipe={changeWord} />
-                ) : (
-                  <>
-                    <p className="flex-1">All done!</p>
-                    <button onClick={() => setCurIndex(words.length - 1)}>
-                      ↩️
-                    </button>
-                  </>
-                )}
+                <Card {...word} onSwipe={changeWord} />
               </Transition>
             </div>
           ))}
