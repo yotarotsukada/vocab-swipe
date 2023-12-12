@@ -49,7 +49,10 @@ const Page: NextPage = () => {
       ? 'translate-x-96 rotate-12'
       : '-translate-x-96 -rotate-12';
 
-  const changeWord = (side: 'R' | 'L') => {
+  const changeWord = (index: number) => (side: 'R' | 'L') => {
+    if (index > curIndex) {
+      return;
+    }
     setSwipeSide(side);
     setCurIndex((c) => c - 1);
   };
@@ -77,7 +80,7 @@ const Page: NextPage = () => {
                 leaveFrom="transform translate-x-0"
                 leaveTo={`transform ${transform}`}
               >
-                <Card {...word} onSwipe={changeWord} />
+                <Card {...word} onSwipe={changeWord(index)} />
               </Transition>
             </div>
           ))}
