@@ -45,9 +45,13 @@ const Page: NextPage = () => {
   const [swipeSide, setSwipeSide] = useState<'R' | 'L'>('R');
 
   const transform =
-    swipeSide === 'R'
+    curIndex === words.length - 1
+      ? 'translate-y-96'
+      : swipeSide === 'R'
       ? 'translate-x-96 rotate-12'
-      : '-translate-x-96 -rotate-12';
+      : swipeSide === 'L'
+      ? '-translate-x-96 -rotate-12'
+      : '';
 
   const changeWord = (index: number) => (side: 'R' | 'L') => {
     if (index > curIndex) {
@@ -74,11 +78,9 @@ const Page: NextPage = () => {
               <Transition
                 show={index <= curIndex}
                 enter="transition ease-out duration-500"
-                enterFrom={`transform ${transform}`}
-                enterTo="transform translate-x-0"
+                enterFrom={transform}
                 leave="transition ease-in duration-500"
-                leaveFrom="transform translate-x-0"
-                leaveTo={`transform ${transform}`}
+                leaveTo={transform}
               >
                 <Card {...word} onSwipe={changeWord(index)} />
               </Transition>

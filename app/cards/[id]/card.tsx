@@ -1,6 +1,7 @@
 'use client';
 
 import { FC, useState } from 'react';
+import { useSwipeable } from 'react-swipeable';
 
 type Props = {
   id: string;
@@ -12,8 +13,16 @@ type Props = {
 export const Card: FC<Props> = ({ id, word, definition, onSwipe }) => {
   const [showDef, setShowDef] = useState(false);
 
+  const handlers = useSwipeable({
+    onSwiped: (eventData) => onSwipe(eventData.dir.at(0) as 'R' | 'L'),
+    trackMouse: true,
+  });
+
   return (
-    <div className="p-20 w-full flex flex-col gap-32 items-center h-screen border border-white bg-slate-800">
+    <div
+      {...handlers}
+      className="p-20 w-full flex flex-col gap-32 items-center h-screen border border-white bg-slate-800"
+    >
       <div className="flex flex-col items-center gap-8">
         <p className="text-sm">{id}</p>
         <p className="text-3xl font-bold">{word}</p>
