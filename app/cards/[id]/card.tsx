@@ -14,7 +14,16 @@ export const Card: FC<Props> = ({ id, word, definition, onSwipe }) => {
   const [showDef, setShowDef] = useState(false);
 
   const handlers = useSwipeable({
-    onSwiped: (eventData) => onSwipe(eventData.dir.at(0) as 'R' | 'L'),
+    onSwiped: (eventData) => {
+      switch (eventData.dir) {
+        case 'Right':
+          return onSwipe('R');
+        case 'Left':
+          return onSwipe('L');
+        default:
+          return;
+      }
+    },
     trackMouse: true,
   });
 
