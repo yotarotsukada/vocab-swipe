@@ -1,6 +1,7 @@
 import { NextPage } from "next";
 import { createSupabaseClient } from "../_utils/supabase";
 
+export const revalidate = 10000;
 const Page: NextPage = async () => {
   const supabase = createSupabaseClient();
   const { data: logs } = await supabase.from("swipe_log").select("*");
